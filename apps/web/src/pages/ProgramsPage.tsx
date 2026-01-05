@@ -35,8 +35,24 @@ export const ProgramsPage = () => {
     }
   };
 
-  const areas = ['Tecnología', 'Salud', 'Ciencias Sociales', 'Arte y Diseño', 'Ingeniería', 'Negocios'];
-  const modalities = ['Presencial', 'Virtual', 'Híbrida'];
+  // Mapeo de áreas en español a valores del backend
+  const areaOptions = [
+    { label: 'Tecnología', value: 'technology' },
+    { label: 'Salud', value: 'health' },
+    { label: 'Ciencias Sociales', value: 'social_sciences' },
+    { label: 'Arte y Diseño', value: 'arts' },
+    { label: 'Ingeniería', value: 'engineering' },
+    { label: 'Negocios', value: 'business' },
+    { label: 'Educación', value: 'education' },
+    { label: 'Ciencias Exactas', value: 'exact_sciences' },
+  ];
+
+  // Mapeo de modalidades en español a valores del backend
+  const modalityOptions = [
+    { label: 'Presencial', value: 'in_person' },
+    { label: 'Virtual', value: 'remote' },
+    { label: 'Híbrida', value: 'hybrid' },
+  ];
 
   return (
     <div className="bg-secondary min-h-screen py-12">
@@ -64,9 +80,9 @@ export const ProgramsPage = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
               >
                 <option value="">Todas las áreas</option>
-                {areas.map((area) => (
-                  <option key={area} value={area}>
-                    {area}
+                {areaOptions.map((area) => (
+                  <option key={area.value} value={area.value}>
+                    {area.label}
                   </option>
                 ))}
               </select>
@@ -81,9 +97,9 @@ export const ProgramsPage = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
               >
                 <option value="">Todas las modalidades</option>
-                {modalities.map((modality) => (
-                  <option key={modality} value={modality}>
-                    {modality}
+                {modalityOptions.map((modality) => (
+                  <option key={modality.value} value={modality.value}>
+                    {modality.label}
                   </option>
                 ))}
               </select>

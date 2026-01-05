@@ -5,7 +5,26 @@ export const LOCALITIES_BY_PROVINCE: Record<string, string[]> = {
     'Quilmes', 'Avellaneda', 'Lomas de Zamora', 'San Isidro', 'Vicente López',
     'Morón', 'San Martín', 'Tres de Febrero', 'La Matanza', 'Lanús',
     'Pilar', 'Tigre', 'San Fernando', 'Escobar', 'San Miguel', 'Merlo',
-    'Moreno', 'José C. Paz', 'Malvinas Argentinas', 'Hurlingham'
+    'Moreno', 'José C. Paz', 'Malvinas Argentinas', 'Hurlingham',
+    'Berazategui', 'Florencio Varela', 'Almirante Brown', 'Esteban Echeverría',
+    'Ezeiza', 'Ituzaingó', 'La Matanza', 'Berisso', 'Ensenada',
+    'Cañuelas', 'Brandsen', 'Magdalena', 'Punta Indio', 'General Belgrano',
+    'Dolores', 'Castelli', 'Tordillo', 'Maipú', 'General Lavalle',
+    'General Madariaga', 'Villa Gesell', 'Pinamar', 'La Costa', 'Mar Chiquita',
+    'Necochea', 'Lobería', 'San Cayetano', 'Tres Arroyos', 'Gonzales Chaves',
+    'Coronel Dorrego', 'Monte Hermoso', 'Villarino', 'Patagones',
+    'Punta Alta', 'Coronel Rosales', 'Coronel Pringles', 'Tornquist', 'Saavedra',
+    'Coronel Suárez', 'Guaminí', 'Adolfo Alsina', 'Puán', 'Daireaux',
+    'Bolívar', 'Tapalqué', 'Las Flores', 'Saladillo', 'Roque Pérez',
+    'Lobos', '25 de Mayo', 'Carlos Casares', 'Pehuajó', 'Trenque Lauquen',
+    'Pellegrini', 'Salliqueló', 'Tres Lomas', 'Rivadavia', 'General Villegas',
+    'Lincoln', 'General Pinto', 'Leandro N. Alem', 'Junín', 'Chacabuco',
+    'Chivilcoy', 'Alberti', 'Bragado', '9 de Julio', 'Carlos Tejedor',
+    'Pergamino', 'Colón', 'Rojas', 'Salto', 'Arrecifes', 'San Pedro',
+    'Baradero', 'San Nicolás', 'Ramallo', 'San Antonio de Areco', 'Carmen de Areco',
+    'Capitán Sarmiento', 'San Andrés de Giles', 'Exaltación de la Cruz',
+    'Zárate', 'Campana', 'Luján', 'Mercedes', 'Suipacha', 'Navarro',
+    'Marcos Paz', 'General Las Heras', 'General Rodríguez', 'Luján'
   ],
   'CABA': [
     'Palermo', 'Belgrano', 'Recoleta', 'Caballito', 'Villa Crespo', 'Almagro',
@@ -15,12 +34,30 @@ export const LOCALITIES_BY_PROVINCE: Record<string, string[]> = {
   'Córdoba': [
     'Córdoba', 'Villa Carlos Paz', 'Río Cuarto', 'Villa María', 'San Francisco',
     'Alta Gracia', 'Bell Ville', 'Cruz del Eje', 'Jesús María', 'La Calera',
-    'Cosquín', 'Río Tercero', 'Marcos Juárez', 'Arroyito', 'La Falda'
+    'Cosquín', 'Río Tercero', 'Marcos Juárez', 'Arroyito', 'La Falda',
+    'Villa Dolores', 'Dean Funes', 'Laboulaye', 'Villa Allende', 'Unión',
+    'Oncativo', 'Oliva', 'Morteros', 'Corral de Bustos', 'Leones',
+    'Las Varillas', 'Balnearia', 'Justiniano Posse', 'Hernán', 'Camilo Aldao',
+    'Freyre', 'San Basilio', 'Porteña', 'Devoto', 'Alejo Ledesma',
+    'Villa de María', 'Villa del Totoral', 'Co. Buenaventura', 'Villa del Rosario',
+    'Capilla del Monte', 'Santa Rosa de Calamuchita', 'Villa General Belgrano',
+    'Embalse', 'Almafuerte', 'La Para', 'Adelia María', 'Canals',
+    'Pasco', 'Monte Maíz', 'Isla Verde', 'Ticino', 'Laborde',
+    'Villa Nueva', 'Tancacha', 'Santa Eufemia', 'Hernando', 'Coronda'
   ],
   'Santa Fe': [
     'Rosario', 'Santa Fe', 'Rafaela', 'Reconquista', 'Venado Tuerto',
     'Villa Constitución', 'Casilda', 'Esperanza', 'San Lorenzo', 'Gálvez',
-    'Cañada de Gómez', 'Firmat', 'Sunchales', 'Santo Tomé', 'Funes'
+    'Cañada de Gómez', 'Firmat', 'Sunchales', 'Santo Tomé', 'Funes',
+    'Villa Gobernador Gálvez', 'Pérez', 'Granadero Baigorria', 'Capitan Bermudez',
+    'Cañada de Gómez', 'Arroyo Seco', 'Fray Luis Beltrán', 'Alvear', 'Pueblo Esther',
+    'Sauce Viejo', 'Recreo', 'Arroyo Leyes', 'Santa Rosa de Calchines',
+    'Las Toscas', 'Vera', 'Calchaqui', 'Tostado', 'Gobernador Crespo',
+    'San Javier', 'Romang', 'San Justo', 'San Cristóbal', 'Tostado',
+    'San Jorge', 'Las Rosas', 'Teodelina', 'Arteaga', 'Arequito',
+    'Rueda', 'Chabaás', 'Maggiolo', 'Carreras', 'Montes de Oca',
+    'Totoras', 'Correa', 'San Jerónimo Sud', 'San Jerónimo Norte',
+    'Carcarañá', 'Roldan', 'Capitán Bermúdez', 'Villa del Plata'
   ],
   'Mendoza': [
     'Mendoza', 'Godoy Cruz', 'Guaymallén', 'Las Heras', 'Luján de Cuyo',

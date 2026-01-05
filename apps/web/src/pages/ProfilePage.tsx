@@ -50,6 +50,8 @@ export const ProfilePage = () => {
     interest_areas: [] as string[],
   });
 
+  const [localitySearch, setLocalitySearch] = useState('');
+
   // Cargar perfil existente
   useEffect(() => {
     if (profileId) {
@@ -199,21 +201,40 @@ export const ProfilePage = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Localidad *
                 </label>
+                
+                {/* Campo de búsqueda */}
+                <input
+                  type="text"
+                  placeholder="Buscar localidad..."
+                  value={localitySearch}
+                  onChange={(e) => setLocalitySearch(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent mb-2"
+                />
+                
+                {/* Select con resultados filtrados */}
                 <select
                   required
                   value={formData.locality}
-                  onChange={(e) => setFormData({ ...formData, locality: e.target.value })}
+                  onChange={(e) => {
+                    setFormData({ ...formData, locality: e.target.value });
+                    setLocalitySearch('');
+                  }}
                   className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
+                  size={8}
                 >
                   <option value="">Seleccionar localidad</option>
-                  {LOCALITIES_BY_PROVINCE[formData.province]?.map((locality) => (
-                    <option key={locality} value={locality}>
-                      {locality}
-                    </option>
-                  ))}
+                  {LOCALITIES_BY_PROVINCE[formData.province]
+                    ?.filter((locality) =>
+                      locality.toLowerCase().includes(localitySearch.toLowerCase())
+                    )
+                    .map((locality) => (
+                      <option key={locality} value={locality}>
+                        {locality}
+                      </option>
+                    ))}
                 </select>
                 <p className="mt-2 text-sm text-gray-500">
-                  ¿No encontrás tu localidad? Seleccioná la más cercana
+                  Usá el buscador para encontrar tu localidad más rápido. Si no está, seleccioná la más cercana.
                 </p>
               </div>
             )}
