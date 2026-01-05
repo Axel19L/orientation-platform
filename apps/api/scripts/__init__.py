@@ -1,0 +1,3 @@
+"""
+Scripts de la aplicación.
+"""
