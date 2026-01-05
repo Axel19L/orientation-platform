@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 import type { Profile } from '../services/api';
-import { LOCALITIES_BY_PROVINCE } from '../data/localities';
+import { georefService } from '../services/georef';
 
 const PROVINCES = [
   'Buenos Aires', 'CABA', 'Catamarca', 'Chaco', 'Chubut', 'Córdoba',
@@ -51,6 +51,8 @@ export const ProfilePage = () => {
   });
 
   const [localitySearch, setLocalitySearch] = useState('');
+  const [availableLocalities, setAvailableLocalities] = useState<string[]>([]);
+  const [loadingLocalities, setLoadingLocalities] = useState(false);
 
   // Cargar perfil existente
   useEffect(() => {
@@ -58,6 +60,30 @@ export const ProfilePage = () => {
       loadProfile();
     }
   }, [profileId]);
+
+  // Cargar localidades cuando cambia la provincia
+  useEffect(() => {
+    if (formData.province) {
+      loadLocalities();
+    } else {
+      setAvailableLocalities([]);
+    }
+  }, [formData.province]);
+
+  const loadLocalities = async () => {
+    if (!formData.province) return;
+    
+    try {
+      setLoadingLocalities(true);
+      const localities = await georefService.getLocalitiesByProvince(formData.province, 2000);
+      setAvailableLocalities(localities);
+    } catch (error) {
+      console.error('Error al cargar localidades:', error);
+      setAvailableLocalities([]);
+    } finally {
+      setLoadingLocalities(false);
+    }
+  };
 
   const loadProfile = async () => {
     if (!profileId) return;
@@ -202,40 +228,50 @@ export const ProfilePage = () => {
                   Localidad *
                 </label>
                 
-                {/* Campo de búsqueda */}
-                <input
-                  type="text"
-                  placeholder="Buscar localidad..."
-                  value={localitySearch}
-                  onChange={(e) => setLocalitySearch(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent mb-2"
-                />
-                
-                {/* Select con resultados filtrados */}
-                <select
-                  required
-                  value={formData.locality}
-                  onChange={(e) => {
-                    setFormData({ ...formData, locality: e.target.value });
-                    setLocalitySearch('');
-                  }}
-                  className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
-                  size={8}
-                >
-                  <option value="">Seleccionar localidad</option>
-                  {LOCALITIES_BY_PROVINCE[formData.province]
-                    ?.filter((locality) =>
-                      locality.toLowerCase().includes(localitySearch.toLowerCase())
-                    )
-                    .map((locality) => (
-                      <option key={locality} value={locality}>
-                        {locality}
-                      </option>
-                    ))}
-                </select>
-                <p className="mt-2 text-sm text-gray-500">
-                  Usá el buscador para encontrar tu localidad más rápido. Si no está, seleccioná la más cercana.
-                </p>
+                {loadingLocalities ? (
+                  <div className="flex items-center justify-center py-4">
+                    <div className="animate-spin rounded-full h-6 w-6 border-2 border-gray-300 border-t-primary"></div>
+                    <span className="ml-2 text-gray-600">Cargando localidades...</span>
+                  </div>
+                ) : (
+                  <>
+                    {/* Campo de búsqueda */}
+                    <input
+                      type="text"
+                      placeholder="Buscar localidad..."
+                      value={localitySearch}
+                      onChange={(e) => setLocalitySearch(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent mb-2"
+                    />
+                    
+                    {/* Select con resultados filtrados */}
+                    <select
+                      required
+                      value={formData.locality}
+                      onChange={(e) => {
+                        setFormData({ ...formData, locality: e.target.value });
+                        setLocalitySearch('');
+                      }}
+                      className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
+                      size={8}
+                      disabled={availableLocalities.length === 0}
+                    >
+                      <option value="">Seleccionar localidad</option>
+                      {availableLocalities
+                        .filter((locality) =>
+                          locality.toLowerCase().includes(localitySearch.toLowerCase())
+                        )
+                        .map((locality) => (
+                          <option key={locality} value={locality}>
+                            {locality}
+                          </option>
+                        ))}
+                    </select>
+                    <p className="mt-2 text-sm text-gray-500">
+                      {availableLocalities.length} localidades disponibles. Usá el buscador para encontrar la tuya.
+                    </p>
+                  </>
+                )}
               </div>
             )}
 
