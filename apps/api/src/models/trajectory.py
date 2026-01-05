@@ -4,7 +4,7 @@ Modelo de trayectoria de estudiante.
 
 import uuid
 
-from sqlalchemy import Boolean, ForeignKey, Integer, String, Text
+from sqlalchemy import Boolean, ForeignKey, Integer, String, Text, JSON
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -27,8 +27,12 @@ class Trajectory(BaseModel):
     outcome: Mapped[str] = mapped_column(
         String(20), nullable=False
     )  # 'completed', 'switched', 'dropped', 'in_progress'
-    tags: Mapped[list[str] | None] = mapped_column(ARRAY(String(50)), nullable=True)
-    context: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    tags: Mapped[list[str] | None] = mapped_column(
+        ARRAY(String(50)).with_variant(JSON(), "sqlite"), nullable=True
+    )
+    context: Mapped[dict | None] = mapped_column(
+        JSONB().with_variant(JSON(), "sqlite"), nullable=True
+    )
     year_started: Mapped[int | None] = mapped_column(Integer, nullable=True)
     is_verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
 

@@ -104,8 +104,8 @@ class RecommendationService:
                 {
                     "program_id": str(rp.program_id),
                     "score": rp.score,
-                    "reasons": [r.model_dump() for r in rp.reasons],
-                    "matched_trajectories": [mt.model_dump() for mt in rp.matched_trajectories],
+                    "reasons": [r.model_dump(mode='json') for r in rp.reasons],
+                    "matched_trajectories": [mt.model_dump(mode='json') for mt in rp.matched_trajectories],
                 }
                 for rp in recommended_programs
             ],

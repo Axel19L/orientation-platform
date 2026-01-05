@@ -2,7 +2,7 @@
 Modelo de perfil de estudiante.
 """
 
-from sqlalchemy import Boolean, Integer, String
+from sqlalchemy import Boolean, Integer, String, JSON
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -25,7 +25,7 @@ class Profile(BaseModel):
     max_weekly_hours: Mapped[int | None] = mapped_column(Integer, nullable=True)
     has_technical_degree: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
     interest_areas: Mapped[list[str] | None] = mapped_column(
-        ARRAY(String(50)), nullable=True
+        ARRAY(String(50)).with_variant(JSON(), "sqlite"), nullable=True
     )
 
     def __repr__(self) -> str:

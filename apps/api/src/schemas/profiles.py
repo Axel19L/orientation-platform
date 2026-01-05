@@ -5,7 +5,7 @@ Schemas para perfiles de estudiantes.
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from src.schemas.base import BaseSchema, InterestArea, Modality, WorksWhileStudying
 
@@ -43,9 +43,8 @@ class ProfileUpdate(ProfileBase):
 class ProfileResponse(BaseSchema, ProfileBase):
     """Schema de respuesta del perfil."""
 
+    model_config = ConfigDict(from_attributes=True)
+
     id: UUID
     created_at: datetime
     updated_at: datetime | None = None
-
-    class Config:
-        from_attributes = True
