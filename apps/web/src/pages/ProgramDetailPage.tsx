@@ -50,9 +50,9 @@ export const ProgramDetailPage = () => {
       <div className="bg-secondary min-h-screen py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="card bg-red-50 border border-red-200">
-            <p className="text-red-600">{error || 'Programa no encontrado'}</p>
+            <p className="text-red-600">{error || 'Carrera no encontrada'}</p>
             <Link to="/programs" className="btn-primary inline-block mt-4">
-              Volver a programas
+              Volver a carreras
             </Link>
           </div>
         </div>
@@ -66,7 +66,7 @@ export const ProgramDetailPage = () => {
         {/* Breadcrumb */}
         <nav className="mb-6">
           <Link to="/programs" className="text-primary hover:text-primary-dark">
-            ← Volver a programas
+            ← Volver a carreras
           </Link>
         </nav>
 
@@ -178,7 +178,7 @@ export const ProgramDetailPage = () => {
               Crear perfil para recomendaciones
             </Link>
             <Link to="/programs" className="btn-secondary flex-1 text-center">
-              Ver más programas
+              Ver más carreras
             </Link>
           </div>
         </div>

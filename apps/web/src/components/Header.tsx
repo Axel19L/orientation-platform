@@ -21,7 +21,7 @@ export const Header = () => {
               to="/programs" 
               className="text-gray-700 hover:text-primary font-medium transition-colors"
             >
-              Programas
+              Carreras
             </Link>
             <Link 
               to="/trajectories" 

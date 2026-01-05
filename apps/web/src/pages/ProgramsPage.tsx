@@ -28,7 +28,7 @@ export const ProgramsPage = () => {
       setPrograms(response.items);
       setError(null);
     } catch (err) {
-      setError('Error al cargar programas');
+      setError('Error al cargar carreras');
       console.error(err);
     } finally {
       setLoading(false);
@@ -43,10 +43,10 @@ export const ProgramsPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            Programas Educativos
+            Explorá Carreras Universitarias
           </h1>
           <p className="text-lg text-gray-600">
-            Explorá carreras y tecnicaturas de instituciones argentinas
+            Descubrí carreras de grado, tecnicaturas y cursos de universidades e institutos en toda Argentina
           </p>
         </div>
 

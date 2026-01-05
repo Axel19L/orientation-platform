@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 import type { Profile } from '../services/api';
+import { LOCALITIES_BY_PROVINCE } from '../data/localities';
 
 const PROVINCES = [
   'Buenos Aires', 'CABA', 'Catamarca', 'Chaco', 'Chubut', 'Córdoba',
@@ -32,7 +33,9 @@ const MODALITIES = [
 export const ProfilePage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [loadingProfile, setLoadingProfile] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [profileId, setProfileId] = useState<string | null>(
     localStorage.getItem('profileId')
   );
@@ -46,6 +49,38 @@ export const ProfilePage = () => {
     has_technical_degree: false,
     interest_areas: [] as string[],
   });
+
+  // Cargar perfil existente
+  useEffect(() => {
+    if (profileId) {
+      loadProfile();
+    }
+  }, [profileId]);
+
+  const loadProfile = async () => {
+    if (!profileId) return;
+
+    try {
+      setLoadingProfile(true);
+      const profile = await api.getProfile(profileId);
+      setFormData({
+        province: profile.province,
+        locality: profile.locality || '',
+        works_while_studying: profile.works_while_studying === 'yes',
+        preferred_modality: profile.preferred_modality,
+        max_weekly_hours: profile.max_weekly_hours,
+        has_technical_degree: profile.has_technical_degree,
+        interest_areas: profile.interest_areas,
+      });
+    } catch (err) {
+      console.error('Error al cargar perfil:', err);
+      // Si el perfil no existe, limpiar localStorage
+      localStorage.removeItem('profileId');
+      setProfileId(null);
+    } finally {
+      setLoadingProfile(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,14 +109,18 @@ export const ProfilePage = () => {
       }
 
       // Generate recommendations
+      setSuccess('¡Perfil guardado! Generando recomendaciones...');
       const recommendation = await api.createRecommendation({
         profile_id: profile.id,
         limit: 10,
       });
 
-      navigate(`/recommendations/${recommendation.id}`);
+      // Wait a bit to show success message
+      setTimeout(() => {
+        navigate(`/recommendations/${recommendation.id}`);
+      }, 1000);
     } catch (err) {
-      setError('Error al guardar el perfil');
+      setError('Error al guardar el perfil. Revisá los datos e intentá nuevamente.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -108,11 +147,24 @@ export const ProfilePage = () => {
             Contanos sobre vos para recibir recomendaciones personalizadas
           </p>
 
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded">
-              <p className="text-red-600">{error}</p>
+          {loadingProfile ? (
+            <div className="text-center py-12">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-300 border-t-primary"></div>
+              <p className="mt-4 text-gray-600">Cargando perfil...</p>
             </div>
-          )}
+          ) : (
+            <>
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded">
+                  <p className="text-red-600">{error}</p>
+                </div>
+              )}
+
+              {success && (
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded">
+                  <p className="text-green-600">{success}</p>
+                </div>
+              )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Province */}
@@ -123,7 +175,13 @@ export const ProfilePage = () => {
               <select
                 required
                 value={formData.province}
-                onChange={(e) => setFormData({ ...formData, province: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ 
+                    ...formData, 
+                    province: e.target.value,
+                    locality: '' // Reset locality when province changes
+                  });
+                }}
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
               >
                 <option value="">Seleccionar provincia</option>
@@ -136,18 +194,29 @@ export const ProfilePage = () => {
             </div>
 
             {/* Locality */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Localidad
-              </label>
-              <input
-                type="text"
-                value={formData.locality}
-                onChange={(e) => setFormData({ ...formData, locality: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
-                placeholder="Ej: Rosario"
-              />
-            </div>
+            {formData.province && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Localidad *
+                </label>
+                <select
+                  required
+                  value={formData.locality}
+                  onChange={(e) => setFormData({ ...formData, locality: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
+                >
+                  <option value="">Seleccionar localidad</option>
+                  {LOCALITIES_BY_PROVINCE[formData.province]?.map((locality) => (
+                    <option key={locality} value={locality}>
+                      {locality}
+                    </option>
+                  ))}
+                </select>
+                <p className="mt-2 text-sm text-gray-500">
+                  ¿No encontrás tu localidad? Seleccioná la más cercana
+                </p>
+              </div>
+            )}
 
             {/* Interest Areas */}
             <div>
@@ -253,6 +322,8 @@ export const ProfilePage = () => {
               </button>
             </div>
           </form>
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -314,10 +314,24 @@ class RecommendationService:
         # Reconstruir la respuesta desde el JSON guardado
         programs = []
         for p in recommendation.programs:
+            # Cargar el programa completo desde la BD
+            program = self.db.query(Program).filter(Program.id == p["program_id"]).first()
+            program_brief = None
+            if program:
+                program_brief = RecommendedProgramBrief(
+                    id=program.id,
+                    name=program.name,
+                    type=program.type,
+                    duration_years=program.duration_years,
+                    modality=program.modality,
+                    area=program.area,
+                    institution_name=program.institution.short_name if program.institution else None,
+                )
+            
             programs.append(
                 RecommendedProgram(
                     program_id=p["program_id"],
-                    program=RecommendedProgramBrief(**p.get("program", {})) if "program" in p else None,
+                    program=program_brief,
                     score=p["score"],
                     reasons=[ReasonDetail(**r) for r in p["reasons"]],
                     matched_trajectories=[MatchedTrajectory(**mt) for mt in p.get("matched_trajectories", [])],

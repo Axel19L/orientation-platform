@@ -18,7 +18,7 @@ export const HomePage = () => {
               Comenzar ahora
             </Link>
             <Link to="/programs" className="btn-secondary text-lg px-8 py-3">
-              Ver programas
+              Ver carreras
             </Link>
           </div>
         </div>

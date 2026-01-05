@@ -138,29 +138,44 @@ export const TrajectoriesPage = () => {
                 </div>
 
                 <div className="space-y-6 text-gray-700">
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Historia</h3>
-                    <p className="whitespace-pre-line">{selectedTrajectory.story}</p>
-                  </div>
+                  {selectedTrajectory.story && (
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Historia</h3>
+                      <p className="whitespace-pre-line leading-relaxed">{selectedTrajectory.story}</p>
+                    </div>
+                  )}
+
+                  {selectedTrajectory.context && (
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Contexto</h3>
+                      <p className="whitespace-pre-line leading-relaxed">{selectedTrajectory.context}</p>
+                    </div>
+                  )}
 
                   {selectedTrajectory.challenges && (
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-2">Desafíos</h3>
-                      <p className="whitespace-pre-line">{selectedTrajectory.challenges}</p>
+                      <p className="whitespace-pre-line leading-relaxed">{selectedTrajectory.challenges}</p>
                     </div>
                   )}
 
                   {selectedTrajectory.alternatives && (
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-2">Alternativas consideradas</h3>
-                      <p className="whitespace-pre-line">{selectedTrajectory.alternatives}</p>
+                      <p className="whitespace-pre-line leading-relaxed">{selectedTrajectory.alternatives}</p>
                     </div>
                   )}
 
                   {selectedTrajectory.outcome && (
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-2">Resultado</h3>
-                      <p className="whitespace-pre-line">{selectedTrajectory.outcome}</p>
+                      <p className="whitespace-pre-line leading-relaxed">{selectedTrajectory.outcome}</p>
+                    </div>
+                  )}
+
+                  {!selectedTrajectory.story && !selectedTrajectory.context && (
+                    <div className="text-center py-8 text-gray-500">
+                      <p>Esta historia está en proceso de verificación.</p>
                     </div>
                   )}
                 </div>
