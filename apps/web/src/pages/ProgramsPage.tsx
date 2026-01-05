@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { api, Program } from '../services/api';
+import { api } from '../services/api';
+import type { Program } from '../services/api';
+import { translate } from '../utils/translations';
 
 export const ProgramsPage = () => {
   const [programs, setPrograms] = useState<Program[]>([]);
@@ -105,7 +107,7 @@ export const ProgramsPage = () => {
               <div key={program.id} className="card">
                 <div className="flex items-start justify-between mb-3">
                   <span className="inline-block px-3 py-1 bg-primary text-white text-xs font-medium rounded">
-                    {program.area}
+                    {translate(program.area)}
                   </span>
                   {program.work_compatible && (
                     <span className="inline-block px-3 py-1 bg-accent-pink-soft text-white text-xs font-medium rounded">
@@ -125,8 +127,8 @@ export const ProgramsPage = () => {
                 )}
                 
                 <div className="space-y-1 text-sm text-gray-600 mb-4">
-                  <p>📚 {program.type} - {program.duration_years} años</p>
-                  <p>📍 {program.modality}</p>
+                  <p>📚 {translate(program.type)} - {program.duration_years} años</p>
+                  <p>📍 {translate(program.modality)}</p>
                   {program.weekly_hours && (
                     <p>⏰ {program.weekly_hours} hs/semana</p>
                   )}

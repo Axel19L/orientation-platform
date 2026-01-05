@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { api, Recommendation, Program } from '../services/api';
+import { api } from '../services/api';
+import type { Recommendation, Program } from '../services/api';
 
 export const RecommendationsPage = () => {
   const { id } = useParams<{ id: string }>();

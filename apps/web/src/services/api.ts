@@ -4,8 +4,8 @@ export interface Profile {
   id: string;
   province: string;
   locality?: string;
-  works_while_studying: boolean;
-  preferred_modality: string;
+  works_while_studying: 'yes' | 'no' | 'maybe';
+  preferred_modality: 'in_person' | 'remote' | 'hybrid' | 'no_preference';
   max_weekly_hours?: number;
   has_technical_degree: boolean;
   interest_areas: string[];

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { api, Profile } from '../services/api';
+import { api } from '../services/api';
+import type { Profile } from '../services/api';
 
 const PROVINCES = [
   'Buenos Aires', 'CABA', 'Catamarca', 'Chaco', 'Chubut', 'Córdoba',
@@ -11,11 +12,22 @@ const PROVINCES = [
 ];
 
 const INTEREST_AREAS = [
-  'Tecnología', 'Salud', 'Ciencias Sociales', 'Arte y Diseño',
-  'Ingeniería', 'Negocios', 'Educación', 'Ciencias Exactas'
+  { value: 'technology', label: 'Tecnología' },
+  { value: 'health', label: 'Salud' },
+  { value: 'social_sciences', label: 'Ciencias Sociales' },
+  { value: 'arts', label: 'Arte y Diseño' },
+  { value: 'engineering', label: 'Ingeniería' },
+  { value: 'business', label: 'Negocios' },
+  { value: 'education', label: 'Educación' },
+  { value: 'exact_sciences', label: 'Ciencias Exactas' },
 ];
 
-const MODALITIES = ['Presencial', 'Virtual', 'Híbrida'];
+const MODALITIES = [
+  { value: 'in_person', label: 'Presencial' },
+  { value: 'remote', label: 'Virtual' },
+  { value: 'hybrid', label: 'Híbrida' },
+  { value: 'no_preference', label: 'Sin preferencia' },
+];
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
@@ -29,7 +41,7 @@ export const ProfilePage = () => {
     province: '',
     locality: '',
     works_while_studying: false,
-    preferred_modality: 'Presencial',
+    preferred_modality: 'in_person',
     max_weekly_hours: 20,
     has_technical_degree: false,
     interest_areas: [] as string[],
@@ -48,10 +60,15 @@ export const ProfilePage = () => {
       setError(null);
 
       let profile: Profile;
+      const profileData = {
+        ...formData,
+        works_while_studying: formData.works_while_studying ? 'yes' : 'no',
+      };
+      
       if (profileId) {
-        profile = await api.updateProfile(profileId, formData);
+        profile = await api.updateProfile(profileId, profileData);
       } else {
-        profile = await api.createProfile(formData);
+        profile = await api.createProfile(profileData);
         localStorage.setItem('profileId', profile.id);
         setProfileId(profile.id);
       }
@@ -140,16 +157,16 @@ export const ProfilePage = () => {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {INTEREST_AREAS.map((area) => (
                   <button
-                    key={area}
+                    key={area.value}
                     type="button"
-                    onClick={() => toggleInterestArea(area)}
+                    onClick={() => toggleInterestArea(area.value)}
                     className={`px-4 py-2 rounded font-medium text-sm transition-colors ${
-                      formData.interest_areas.includes(area)
+                      formData.interest_areas.includes(area.value)
                         ? 'bg-primary text-white'
                         : 'bg-white border border-gray-300 text-gray-700 hover:border-primary'
                     }`}
                   >
-                    {area}
+                    {area.label}
                   </button>
                 ))}
               </div>
@@ -167,8 +184,8 @@ export const ProfilePage = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
               >
                 {MODALITIES.map((modality) => (
-                  <option key={modality} value={modality}>
-                    {modality}
+                  <option key={modality.value} value={modality.value}>
+                    {modality.label}
                   </option>
                 ))}
               </select>

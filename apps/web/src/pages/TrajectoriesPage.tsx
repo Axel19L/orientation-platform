@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { api, Trajectory } from '../services/api';
+import { api } from '../services/api';
+import type { Trajectory } from '../services/api';
+import { translate } from '../utils/translations';
 
 export const TrajectoriesPage = () => {
   const [trajectories, setTrajectories] = useState<Trajectory[]>([]);
@@ -57,7 +59,7 @@ export const TrajectoriesPage = () => {
                         key={index}
                         className="inline-block px-2 py-1 bg-accent-pink-soft text-white text-xs font-medium rounded"
                       >
-                        {tag}
+                        {translate(tag)}
                       </span>
                     ))}
                   </div>
@@ -130,7 +132,7 @@ export const TrajectoriesPage = () => {
                       key={index}
                       className="inline-block px-3 py-1 bg-secondary text-gray-700 text-sm rounded"
                     >
-                      {tag}
+                      {translate(tag)}
                     </span>
                   ))}
                 </div>
