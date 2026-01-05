@@ -101,11 +101,5 @@ npm test
 
 Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
 
-## 🙏 Agradecimientos
 
-- A todos los estudiantes que comparten sus trayectorias
-- A las instituciones educativas argentinas que colaboran con información
-- A la comunidad open-source
-
----
 
