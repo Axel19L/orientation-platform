@@ -79,4 +79,3 @@ Un comparador práctico con criterios reales:
 
 ---
 
-*"No te decimos qué elegir. Te ayudamos a elegir mejor."*

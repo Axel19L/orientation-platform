@@ -212,8 +212,6 @@ Usa el template de issues e incluye:
 ## ❓ ¿Preguntas?
 
 - Abre un issue con el label `question`
-- Únete a nuestro Discord [próximamente]
-
 ---
 
 ¡Gracias por contribuir! 🎉
